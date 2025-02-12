@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Data;
+using WebApplication2.Models;
 
 namespace WebApplication2.Controllers;
 
@@ -13,23 +14,37 @@ public class UserController: ControllerBase
          _dapper = new DataContextDapper(config);
      }
     
-     [HttpGet("TestConnection")]
-     public DateTime TestConnection()
-     {
-         return _dapper.LoadDataSingle<DateTime>("SELECT GETDATE()");
-     }
      
-    
-    [HttpGet("GetUsers/{userId}")]
-    public string[] GetUsers(string userId)
+    [HttpGet("GetUsers")]
+    public IEnumerable<User> GetUsers(string userId)
     {
-        string[] responseArray = new string[]
-        {
-            "value1",
-            "value2"
-        };
+        string sql = @"
+            SELECT [UserId],
+                [FirstName],
+                [LastName],
+                [Email],
+                [Gender],
+                [Active] 
+            FROM dotnetapidatabase.User";
         
-        return responseArray;
+        IEnumerable<User> users = _dapper.LoadData<User>(sql);
+        return users;
+    }    
+    
+    [HttpGet("GetSingleUser/{userId}")]
+    public User GetSingleUser(string userId)
+    {
+        string sql = @"
+            SELECT [UserId],
+                [FirstName],
+                [LastName],
+                [Email],
+                [Gender],
+                [Active] 
+            FROM dotnetapidatabase.User
+                WHERE UserId = " + userId.ToString(); //"7"
+        User user = _dapper.LoadDataSingle<User>(sql);
+        return user;
     }
     
     

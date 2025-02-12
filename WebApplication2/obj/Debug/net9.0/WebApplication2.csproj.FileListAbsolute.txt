@@ -172,6 +172,3 @@
 /home/imchergar/RiderProjects/WebApplication2/WebApplication2/bin/Debug/net9.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 /home/imchergar/RiderProjects/WebApplication2/WebApplication2/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.SqlServer.dll
 /home/imchergar/RiderProjects/WebApplication2/WebApplication2/bin/Debug/net9.0/System.Formats.Asn1.dll
-/home/imchergar/RiderProjects/WebApplication2/WebApplication2/bin/Debug/net9.0/UserJobInfo.json
-/home/imchergar/RiderProjects/WebApplication2/WebApplication2/bin/Debug/net9.0/Users.json
-/home/imchergar/RiderProjects/WebApplication2/WebApplication2/bin/Debug/net9.0/UserSalary.json

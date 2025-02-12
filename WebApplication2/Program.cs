@@ -1,7 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using WebApplication2.Data;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<DataContextEF>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString(("DefaultConnection"))));
 
 builder.Services.AddControllers();
 // Add services to the container.
@@ -45,7 +50,6 @@ else
 }
 
 app.MapControllers();
-
 
 
 app.Run();

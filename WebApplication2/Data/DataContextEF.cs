@@ -5,25 +5,40 @@ namespace WebApplication2.Data;
 
 public class DataContextEF : DbContext
 {
-    public DataContextEF(DbContextOptions<DataContextEF> options): base(options)
+    private readonly IConfiguration _config;
+
+    public DataContextEF(IConfiguration config)
     {
-        
+        _config = config;
     }
+
     
     public DbSet<User> Users { get; set; }
     public DbSet<UserJobInfo> UserJobInfo { get; set; }
     public DbSet<UserSalary> UserSalary { get; set; }
     
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (!options.IsConfigured)
+        if (!optionsBuilder.IsConfigured)
         {
-            // options.UseSqlServer("Server=localhost;Database=DotNetCourseDatabase;Trusted_connection=false;TrustServerCertificate=True;User Id=sa;Password=SQLConnect1!;",
-            options.UseSqlServer("Server=localhost;Database=DotNetCourseDatabase;Trusted_Connection=true;TrustServerCertificate=true;",
-                options => options.EnableRetryOnFailure());
+            optionsBuilder
+                .UseSqlServer(_config.GetConnectionString("DefaultConnection"),
+                    optionsBuilder => optionsBuilder.EnableRetryOnFailure());
         }
     }
     
-    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+
+        modelBuilder.Entity<User>()
+            .ToTable("Users")
+            .HasKey(u => u.UserId);
+
+        modelBuilder.Entity<UserSalary>()
+            .HasKey(u => u.UserId);
+
+        modelBuilder.Entity<UserJobInfo>()
+            .HasKey(u => u.UserId);
+    }
     
 }

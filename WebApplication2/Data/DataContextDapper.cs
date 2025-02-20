@@ -25,11 +25,16 @@ public class DataContextDapper
          return dbConnection.QuerySingle<T>(sql);
     }
 
-    public bool ExecuteSql(string sql)
+    public bool ExecuteSql(string sql, object parameters = null)
     {
-        IDbConnection dbConnection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
-        return dbConnection.Execute(sql) > 0;
+        using (IDbConnection dbConnection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+        {
+            dbConnection.Open();
+            return dbConnection.Execute(sql, parameters) > 0;
+        }
     }
+
+    
     
     public int ExecuteSqlWithRowCount(string sql)
     {
